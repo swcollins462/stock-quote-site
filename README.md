@@ -2,7 +2,7 @@
 
 Project by Stephen Collins
 
-Hosting link:
+Hosting link: https://swcollins462.github.io/stock-quote-site/
 
 Search US Stocks by ticker symbol or company name.
 Displays current stock price, price at open, high and low for the day, market capitalization, P/E ratio, earnings per share, 52-week high and low, and sector. Displays up-to-date stock-related news.
@@ -19,7 +19,7 @@ AS A stock trader
 I WANT TO monitor price trends
 SO THAT I can evaluate my positions
 
-AS A
-I WANT TO
-SO THAT I
+AS A financial analyst
+I WANT TO collect stock data
+SO THAT I can write my reports
 ```
