@@ -78,6 +78,49 @@ function renderQuote(response) {
     }
 }
 
+function renderSearchResults(response) {
+    if (typeof response[0] === "undefined") {
+        displayErrorMessage()
+    } else if (response.length === 1) {
+        queryTicker(response[0].symbol);
+    } else {
+        displaySearchResults(response);
+    }
+}
+
+function queryTicker(ticker) {
+    const url1 = `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.API_KEY}`;
+    const url2 = `https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${process.env.API_KEY}`
+
+    Promise.all([
+        fetch(url1).then(resp => resp.json()),
+        fetch(url2).then(resp => resp.json()),
+    ]).then(renderQuote);
+}
+
+function queryName(searchExpression) {
+    const url = `
+        https://financialmodelingprep.com/api/v3/search-name?query=${searchExpression}&limit=10&exchange=NYSE,NASDAQ&apikey=${process.env.API_KEY}`
+
+    fetch(url)
+        .then((data) => data.json())
+        .then(renderSearchResults);
+}
+
+function tickerSubmitted(event) {
+    event.preventDefault();
+
+    queryTicker(tickerInput.value);
+    tickerInput.value = '';
+}
+
+function nameSubmitted(event) {
+    event.preventDefault();
+
+    queryName(nameInput.value);
+    nameInput.value = '';
+}
+
 function getNewsImageHTML(news) {
     if (typeof news.image === 'string') {
         return `<img src="${news.image}" alt="${news.title}" class="news-img col-12 col-md-6 col-lg-4" />`;
