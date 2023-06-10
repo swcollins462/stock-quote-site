@@ -8,6 +8,20 @@ Search US Stocks by ticker symbol or company name.
 Displays current stock price, price at open, high and low for the day, market capitalization, P/E ratio, earnings per share, 52-week high and low, and sector. Displays up-to-date stock-related news.
 Data provided by Financial Modeling Prep.com.
 
+Technologies used include:
+
+-   HTML
+-   CSS
+-   JavaScript
+-   forms with submit event listeners
+-   Promise.all and fetch
+
+Future improvement could include:
+
+1. stock price charts for various time periods
+2. news articles specific to the security that was searched
+3. price display that continually updates intraday
+
 ## User Stories
 
 ```
