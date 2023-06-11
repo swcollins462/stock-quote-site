@@ -15,10 +15,12 @@ body {
 
 h1 {
     font-size: 2.5rem;
+    color: whitesmoke;
 }
 
 h2 {
     font-size: 2.2rem;
+    color: whitesmoke;
 }
 
 h3 {
@@ -124,6 +126,7 @@ h3 {
 
 .value {
     padding-right: 3rem;
+    color: whitesmoke;
 }
 
 .value a {

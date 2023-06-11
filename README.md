@@ -13,8 +13,6 @@ Technologies used include:
 -   HTML
 -   CSS
 -   JavaScript
--   forms with submit event listeners
--   Promise.all and fetch
 
 Future improvement could include:
 
