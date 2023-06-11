@@ -3,30 +3,30 @@ let formName = document.querySelector('.js-name-search');
 let tickerInput = document.querySelector('[name=ticker]');
 let nameInput = document.querySelector('[name=company-name');
 let quoteContainer = document.querySelector('.js-quote-container');
-let searchResultContainer = document.querySelector('.js-name-response')
+let searchResultContainer = document.querySelector('.js-name-response');
 let newsContainer = document.querySelector('.js-news-container');
+let apiKey = '5955f1778e2339968704f8851bec5d87';
 
 function formatMktCap(mktCap) {
     if (mktCap > 999999999999) {
-        mktCap = (mktCap / 1e12).toFixed(2) + 'T' //trillion
+        mktCap = (mktCap / 1e12).toFixed(2) + 'T'; //trillion
     } else if (mktCap > 999999999) {
-        mktCap = (mktCap / 1e9).toFixed(2) + 'B' //billion
+        mktCap = (mktCap / 1e9).toFixed(2) + 'B'; //billion
     } else if (mktCap > 999999) {
-        mktCap = (mktCap / 1e6).toFixed(2) + 'M' //million
+        mktCap = (mktCap / 1e6).toFixed(2) + 'M'; //million
     }
     return mktCap;
 }
 
 function getChangeColor(change) {
-    if (change < 0) {
-        return 'red';
+    if (change < 0) { 
+        return 'red';  //if price change is negative
     } else {
-        return 'green';
+        return 'green';  //if price change is positive
     }
 }
 
-function displayQuote() {
-    let quoteData = testQuote;
+function displayQuote(quoteData) {
     let quote = quoteData[0][0];
     let profile = quoteData[1][0];
     let mktCap = formatMktCap(profile.mktCap);
@@ -57,15 +57,15 @@ function displayQuote() {
 
 function displaySearchResults(searchResults) {
     let results = searchResults;
-    let html = '<table>'
+    let html = '<table>';
 
     for (let result of results) {
         html += `<tr><td class="value"><a href="#" onclick="return queryTicker('${result.symbol}')">
             ${result.exchangeShortName}: ${result.symbol}</a></td><td class="value">
             <a href="#" onclick="return queryTicker('${result.symbol}')">${result.name}</a></td></tr>
-        `
+        `;
     }
-    html += '</table>'
+    html += '</table>';
     searchResultContainer.innerHTML = html;
     quoteContainer.innerHTML = '';
 }
@@ -80,8 +80,8 @@ function renderQuote(response) {
 
 function renderSearchResults(response) {
     if (typeof response[0] === "undefined") {
-        displayErrorMessage()
-    } else if (response.length === 1) {
+        displayErrorMessage();
+    } else if (response.length === 1) {  //if 1 search result display quote
         queryTicker(response[0].symbol);
     } else {
         displaySearchResults(response);
@@ -89,8 +89,8 @@ function renderSearchResults(response) {
 }
 
 function queryTicker(ticker) {
-    const url1 = `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.API_KEY}`;
-    const url2 = `https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${process.env.API_KEY}`
+    const url1 = `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${apiKey}`;
+    const url2 = `https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${apiKey}`;
 
     Promise.all([
         fetch(url1).then(resp => resp.json()),
@@ -100,7 +100,8 @@ function queryTicker(ticker) {
 
 function queryName(searchExpression) {
     const url = `
-        https://financialmodelingprep.com/api/v3/search-name?query=${searchExpression}&limit=10&exchange=NYSE,NASDAQ&apikey=${process.env.API_KEY}`
+        https://financialmodelingprep.com/api/v3/search-name?query=${searchExpression}&limit=10&exchange=NYSE,NASDAQ&apikey=${apiKey}
+    `;
 
     fetch(url)
         .then((data) => data.json())
@@ -161,7 +162,7 @@ function renderNews(response) {
 }
 
 function queryNews() {
-    const url = `https://financialmodelingprep.com/api/v3/fmp/articles?page=0&size=8&apikey=${process.env.API_KEY}`
+    const url = `https://financialmodelingprep.com/api/v3/fmp/articles?page=0&size=8&apikey=${apiKey}`;
 
     fetch(url)
         .then((data) => data.json())
@@ -170,3 +171,4 @@ function queryNews() {
 
 formTicker.addEventListener('submit', tickerSubmitted);
 formName.addEventListener('submit', nameSubmitted);
+queryNews();
