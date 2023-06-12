@@ -9,20 +9,20 @@ let apiKey = '5955f1778e2339968704f8851bec5d87';
 
 function formatMktCap(mktCap) {
     if (mktCap > 999999999999) {
-        mktCap = (mktCap / 1e12).toFixed(2) + 'T'; //trillion
+        mktCap = (mktCap / 1e12).toFixed(2) + 'T'; // trillion
     } else if (mktCap > 999999999) {
-        mktCap = (mktCap / 1e9).toFixed(2) + 'B'; //billion
+        mktCap = (mktCap / 1e9).toFixed(2) + 'B'; // billion
     } else if (mktCap > 999999) {
-        mktCap = (mktCap / 1e6).toFixed(2) + 'M'; //million
+        mktCap = (mktCap / 1e6).toFixed(2) + 'M'; // million
     }
     return mktCap;
 }
 
 function getChangeColor(change) {
     if (change < 0) { 
-        return 'red';  //if price change is negative
+        return 'red';  // if price change is negative
     } else {
-        return 'green';  //if price change is positive
+        return 'green';  // if price change is positive
     }
 }
 
@@ -81,7 +81,7 @@ function renderQuote(response) {
 function renderSearchResults(response) {
     if (typeof response[0] === "undefined") {
         displayErrorMessage();
-    } else if (response.length === 1) {  //if 1 search result display quote
+    } else if (response.length === 1) {  // if 1 search result display quote
         queryTicker(response[0].symbol);
     } else {
         displaySearchResults(response);
@@ -113,6 +113,7 @@ function tickerSubmitted(event) {
 
     queryTicker(tickerInput.value);
     tickerInput.value = '';
+    document.activeElement?.blur();
 }
 
 function nameSubmitted(event) {
@@ -120,6 +121,7 @@ function nameSubmitted(event) {
 
     queryName(nameInput.value);
     nameInput.value = '';
+    document.activeElement?.blur();
 }
 
 function getNewsImageHTML(news) {
