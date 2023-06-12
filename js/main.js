@@ -47,9 +47,9 @@ function displayQuote(quoteData) {
         <tr><th class="label">P/E ratio</th><td class="value">${quote.pe}</td></tr>
         <tr><th class="label">EPS</th><td class="value">${quote.eps}</td></tr></table></div>
         <div class="column"><table><tr><th class="lable">52-wk high</th>
-        <td class="value">${quote.yearHigh}</td></tr>
-        <tr><th class="label">52-wk low</th><td class="value">${quote.yearLow}</td></tr>
-        <tr><th class="label">Sector</th><td class="value">${profile.sector}</td></tr></table></div></div>
+        <td class="value r-col">${quote.yearHigh}</td></tr>
+        <tr><th class="label">52-wk low</th><td class="value r-col">${quote.yearLow}</td></tr>
+        <tr><th class="label">Sector</th><td class="value r-col">${profile.sector}</td></tr></table></div></div>
     `;
     quoteContainer.innerHTML = html;
     searchResultContainer.innerHTML = '';
@@ -61,7 +61,7 @@ function displaySearchResults(searchResults) {
 
     for (let result of results) {
         html += `<tr><td class="value"><a href="#" onclick="return queryTicker('${result.symbol}')">
-            ${result.exchangeShortName}: ${result.symbol}</a></td><td class="value">
+            ${result.exchangeShortName}: ${result.symbol}</a></td><td class="value r-col">
             <a href="#" onclick="return queryTicker('${result.symbol}')">${result.name}</a></td></tr>
         `;
     }

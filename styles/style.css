@@ -127,10 +127,15 @@ h3 {
 .value {
     padding-right: 3rem;
     color: whitesmoke;
+    vertical-align: top;
 }
 
 .value a {
     text-decoration: none;
+}
+
+.r-col {
+    padding-right: 0rem;
 }
 
 .news-img {
@@ -158,6 +163,10 @@ h3 {
 
     .value {
         padding-right: 0;
-        width: 12rem;
+        width: 10rem;
+    }
+
+    .r-col {
+        width: auto;
     }
 }
