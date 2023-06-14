@@ -19,14 +19,11 @@ function formatMktCap(mktCap) {
 }
 
 function getChangeColor(change) {
-    if (change < 0) { 
-        return 'red';  // if price change is negative
-    } else {
-        return 'green';  // if price change is positive
-    }
+    return change < 0 ? 'red' : 'green'; 
 }
 
 function displayQuote(quoteData) {
+    console.log(quoteData);
     let quote = quoteData[0][0];
     let profile = quoteData[1][0];
     let mktCap = formatMktCap(profile.mktCap);
@@ -36,20 +33,60 @@ function displayQuote(quoteData) {
     
     let html = `
         <h2 class="quote-name">${quote.name}</h2>
-        <p class="exchange-ticker">${quote.exchange}: ${quote.symbol}</p>
-        <p class="quote-price">${quote.price} <span class="currency">${profile.currency}</span></p>
-        <p class="change ${changeColor}">${chgAmt} (${chgPct}%)</p>
-        <div class="table-container"><div class="column"><table>
-        <tr><th class="label">Open</th><td class="value">${quote.open}</td></tr>
-        <tr><th class="label">High</th><td class="value">${quote.dayHigh}</td></tr>
-        <tr><th class="label">Low</th><td class="value">${quote.dayLow}</td></tr></table></div>
-        <div class="column"><table><tr><th class="label">Mkt cap</th><td class="value">${mktCap}</td></tr>
-        <tr><th class="label">P/E ratio</th><td class="value">${quote.pe}</td></tr>
-        <tr><th class="label">EPS</th><td class="value">${quote.eps}</td></tr></table></div>
-        <div class="column"><table><tr><th class="lable">52-wk high</th>
-        <td class="value r-col">${quote.yearHigh}</td></tr>
-        <tr><th class="label">52-wk low</th><td class="value r-col">${quote.yearLow}</td></tr>
-        <tr><th class="label">Sector</th><td class="value r-col">${profile.sector}</td></tr></table></div></div>
+            <p class="exchange-ticker">${quote.exchange}: ${quote.symbol}</p>
+            <p class="quote-price">${quote.price} 
+                <span class="currency">${profile.currency}</span>
+            </p>
+            <p class="change ${changeColor}">${chgAmt} (${chgPct}%)</p>
+            <div class="table-container"><div class="column">
+                <table>
+                    <tr>
+                        <th class="label">Open</th>
+                        <td class="value">${quote.open}</td>
+                    </tr>
+                    <tr>
+                        <th class="label">High</th>
+                        <td class="value">${quote.dayHigh}</td>
+                    </tr>
+                    <tr>
+                        <th class="label">Low</th>
+                        <td class="value">${quote.dayLow}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="column">
+                <table>
+                    <tr>
+                        <th class="label">Mkt cap</th>
+                        <td class="value">${mktCap}</td>
+                    </tr>
+                    <tr>
+                        <th class="label">P/E ratio</th>
+                        <td class="value">${quote.pe}</td>
+                    </tr>
+                    <tr>
+                        <th class="label">EPS</th>
+                        <td class="value">${quote.eps}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="column">
+                <table>
+                    <tr>
+                        <th class="lable">52-wk high</th>
+                        <td class="value r-col">${quote.yearHigh}</td>
+                    </tr>
+                    <tr>
+                        <th class="label">52-wk low</th>
+                        <td class="value r-col">${quote.yearLow}</td>
+                    </tr>
+                    <tr>
+                        <th class="label">Sector</th>
+                        <td class="value r-col">${profile.sector}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     `;
     quoteContainer.innerHTML = html;
     searchResultContainer.innerHTML = '';
@@ -60,9 +97,19 @@ function displaySearchResults(searchResults) {
     let html = '<table>';
 
     for (let result of results) {
-        html += `<tr><td class="value"><a href="#" onclick="return queryTicker('${result.symbol}')">
-            ${result.exchangeShortName}: ${result.symbol}</a></td><td class="value r-col">
-            <a href="#" onclick="return queryTicker('${result.symbol}')">${result.name}</a></td></tr>
+        html += `
+            <tr>
+                <td class="value">
+                    <a href="#" onclick="return queryTicker('${result.symbol}')">
+                        ${result.exchangeShortName}: ${result.symbol}
+                    </a>
+                </td>
+                <td class="value r-col">
+                    <a href="#" onclick="return queryTicker('${result.symbol}')">
+                        ${result.name}
+                    </a>
+                </td>
+            </tr>
         `;
     }
     html += '</table>';
@@ -111,7 +158,7 @@ function queryName(searchExpression) {
 function tickerSubmitted(event) {
     event.preventDefault();
 
-    queryTicker(tickerInput.value);
+    queryTicker(tickerInput.value.trim());
     tickerInput.value = '';
     document.activeElement?.blur();
 }
@@ -119,7 +166,7 @@ function tickerSubmitted(event) {
 function nameSubmitted(event) {
     event.preventDefault();
 
-    queryName(nameInput.value);
+    queryName(nameInput.value.trim());
     nameInput.value = '';
     document.activeElement?.blur();
 }
@@ -134,14 +181,15 @@ function getNewsImageHTML(news) {
 function displayNews(news) {
     let html = '';
     for (let article of news) {
+        let content = article.content.replaceAll('<a ', '<a target="_blank" ');
         html += `
             <div class="d-flex">
-            <section class="news-item my-3">
-            <h3>${article.title}</h3>
-            <p class="news-date">${article.date}</p>
-            ${getNewsImageHTML(article)}
-            ${article.content}
-            </section>
+                <section class="news-item my-3">
+                    <h3>${article.title}</h3>
+                    <p class="news-date">${article.date}</p>
+                    ${getNewsImageHTML(article)}
+                    ${content}
+                </section>
             </div>
         `;
     }
