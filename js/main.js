@@ -23,13 +23,13 @@ function getChangeColor(change) {
 }
 
 function displayQuote(quoteData) {
-    console.log(quoteData);
     let quote = quoteData[0][0];
     let profile = quoteData[1][0];
     let mktCap = formatMktCap(profile.mktCap);
     let chgAmt = quote.change.toFixed(2);
     let chgPct = quote.changesPercentage.toFixed(2);
     let changeColor = getChangeColor(quote.change);
+    let pe = quote.pe === null ? '' : quote.pe;
     
     let html = `
         <h2 class="quote-name">${quote.name}</h2>
@@ -62,7 +62,7 @@ function displayQuote(quoteData) {
                     </tr>
                     <tr>
                         <th class="label">P/E ratio</th>
-                        <td class="value">${quote.pe}</td>
+                        <td class="value">${pe}</td>
                     </tr>
                     <tr>
                         <th class="label">EPS</th>
